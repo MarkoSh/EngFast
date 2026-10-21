@@ -21,6 +21,7 @@ const out = new Function(js + `
   QWORDS.concat(QPARTS).forEach(x => { f(x.th); f(x.xth) });
   CLS.forEach(x => f(x.th)); ORDER.forEach(it => ORDER_N.forEach(([n]) => f(orderPhrase(it, n).th)));
   FOOD.forEach(g => g.items.forEach(x => f(x.th))); SIGNS.forEach(x => f(x.say || x.th));
+  SENT_TYPES.forEach(t => SENT_BASES.forEach((_, b) => f(sentText(t.k, b))));
   return { m: [...res.m], f: [...res.f] };
 `)();
 console.log(JSON.stringify(out));

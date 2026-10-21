@@ -61,6 +61,7 @@ tailwind.config = {
       <a href="#alphabet" class="hover:text-white transition" data-i18n="navAlpha"></a>
       <a href="#phrases" class="hover:text-white transition" data-i18n="navPhrases"></a>
       <a href="#words" class="hover:text-white transition" data-i18n="navWords"></a>
+      <a href="#grammar" class="hover:text-white transition" data-i18n="navGram"></a>
       <a href="#dialogs" class="hover:text-white transition" data-i18n="navDialogs"></a>
       <a href="#etiquette" class="hover:text-white transition" data-i18n="navEtq"></a>
       <a href="#train" class="hover:text-white transition" data-i18n="navTrain"></a>
@@ -314,11 +315,31 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 06 ANSWERS -->
-  <section id="answers" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+  <!-- 06 SENTENCES -->
+  <section id="grammar" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
     <div class="max-w-6xl mx-auto px-4">
       <div class="reveal max-w-2xl">
         <p class="font-mono text-sm text-accent">06</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="gramTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="gramSub"></p>
+      </div>
+      <div class="reveal mt-10 rounded-3xl border border-white/10 bg-ink-950 p-6 md:p-8">
+        <p class="text-xs uppercase tracking-widest text-zinc-500" data-i18n="gramType"></p>
+        <div id="stTypes" class="mt-3 flex flex-wrap gap-2"></div>
+        <p class="mt-5 text-xs uppercase tracking-widest text-zinc-500" data-i18n="gramBase"></p>
+        <div id="stBases" class="mt-3 flex flex-wrap gap-2"></div>
+        <div id="stOut" class="mt-8 min-h-[260px]"></div>
+      </div>
+      <h3 class="reveal mt-12 text-lg font-bold text-white" data-i18n="gramRules"></h3>
+      <div id="stRules" class="reveal mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- 07 ANSWERS -->
+  <section id="answers" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">07</p>
         <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="ansTitle"></h2>
         <p class="mt-3 text-zinc-400" data-i18n="ansSub"></p>
       </div>
@@ -334,11 +355,11 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 07 DIALOGS -->
-  <section id="dialogs" class="py-20 md:py-28 border-t border-white/5">
+  <!-- 08 DIALOGS -->
+  <section id="dialogs" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
     <div class="max-w-6xl mx-auto px-4">
       <div class="reveal max-w-2xl">
-        <p class="font-mono text-sm text-accent">07</p>
+        <p class="font-mono text-sm text-accent">08</p>
         <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="dlgTitle"></h2>
         <p class="mt-3 text-zinc-400" data-i18n="dlgSub"></p>
       </div>
@@ -358,11 +379,11 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 08 ETIQUETTE -->
-  <section id="etiquette" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+  <!-- 09 ETIQUETTE -->
+  <section id="etiquette" class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-6xl mx-auto px-4">
       <div class="reveal max-w-2xl">
-        <p class="font-mono text-sm text-accent">08</p>
+        <p class="font-mono text-sm text-accent">09</p>
         <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="etqTitle"></h2>
         <p class="mt-3 text-zinc-400" data-i18n="etqSub"></p>
       </div>
@@ -378,12 +399,12 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 09 SIGNS -->
-  <section id="signs" class="py-20 md:py-28 border-t border-white/5">
+  <!-- 10 SIGNS -->
+  <section id="signs" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
     <div class="max-w-6xl mx-auto px-4">
       <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div class="max-w-2xl">
-          <p class="font-mono text-sm text-accent">09</p>
+          <p class="font-mono text-sm text-accent">10</p>
           <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="signsTitle"></h2>
           <p class="mt-3 text-zinc-400" data-i18n="signsSub"></p>
         </div>
@@ -393,11 +414,11 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 10 TRAINERS -->
-  <section id="train" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+  <!-- 11 TRAINERS -->
+  <section id="train" class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-4xl mx-auto px-4">
       <div class="reveal text-center max-w-2xl mx-auto">
-        <p class="font-mono text-sm text-accent">10</p>
+        <p class="font-mono text-sm text-accent">11</p>
         <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="trainTitle"></h2>
         <p class="mt-3 text-zinc-400" data-i18n="trainSub"></p>
       </div>
@@ -546,12 +567,12 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- 07 TOP VERBS -->
-  <section id="topverbs" class="py-20 md:py-28 border-t border-white/5">
+  <!-- 12 TOP VERBS -->
+  <section id="topverbs" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
     <div class="max-w-6xl mx-auto px-4">
       <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div class="max-w-2xl">
-          <p class="font-mono text-sm text-accent">11</p>
+          <p class="font-mono text-sm text-accent">12</p>
           <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight"><span id="tvCount"></span> <span data-i18n="tvTitle"></span></h2>
           <p class="mt-3 text-zinc-400" data-i18n="tvSub"></p>
         </div>
@@ -600,7 +621,9 @@ tailwind.config = {
 /* ================= UI TEXT ================= */
 const T = {
   ru: {
-    navSounds: 'Звуки', navTones: 'Интонация', navAlpha: 'Алфавит', navPhrases: 'Фразы', navWords: 'Слова', navTrain: 'Тренажёры', navTop: 'Топ-глаголы', navDialogs: 'Диалоги', navEtq: 'Этикет',
+    navSounds: 'Звуки', navTones: 'Интонация', navAlpha: 'Алфавит', navPhrases: 'Фразы', navWords: 'Слова', navTrain: 'Тренажёры', navTop: 'Топ-глаголы', navDialogs: 'Диалоги', navEtq: 'Этикет', navGram: 'Грамматика',
+    gramTitle: 'Как строить предложения', gramSub: 'В английском порядок слов жёсткий, а вопросы и отрицания строятся словами-помощниками do, did, will. Выберите тип предложения и посмотрите, как переставляются блоки.',
+    gramType: 'Тип предложения', gramBase: 'Пример', gramRules: 'Главные правила',
     badge: '15 минут до первого разговора',
     heroTitle: 'Американский английский. Без лишнего.',
     heroSub: 'Звуки, которых нет в русском, живые фразы для кафе, такси, отеля и магазина, этикет и чаевые. Слушайте, повторяйте, закрепляйте в тренажёрах.',
@@ -1229,6 +1252,55 @@ const SIGNS = [
   ['tag', 'yellow', 'TIP JAR', 'tɪp dʒɑːr', 'тип джар', 'Банка для чаевых'], ['tag', 'yellow', 'BUY 2 GET 1', 'baɪ tuː ɡet wʌn', 'бай ту гет уан', 'Купи 2 — третий в подарок', 'buy two, get one']
 ].map(([k, s, th, lat, cyr, ru, say]) => ({ k, s, th, lat, cyr, ru, say, np: 1 }));
 
+/* ================= SENTENCES ================= */
+// Sentence builder: word blocks with a role (S who, V action, O what/where, NEG, Q helper, QW question word, T time, M want)
+const SENT_JOIN = ' ';
+const SENT_END = { st: '.', neg: '.', yn: '?', wh: '?', past: '.', pastq: '?', fut: '.', want: '.' };
+const SENT_PH = {};
+const ROLE_RU = { S: ['кто'], V: ['действие'], O: ['что / где'], NEG: ['не'], Q: ['помощник'], QW: ['вопрос'], T: ['время'], M: ['хочу'] };
+const SENT_TYPES = [
+  { k: 'st', ru: 'Утверждение', note: ['Жёсткий порядок: кто → действие → что. Подлежащее обязательно — просто «Ем завтрак» по-английски сказать нельзя.'] },
+  { k: 'neg', ru: 'Отрицание', note: ['don’t (do not) перед глаголом. Сам глагол не меняется: I don’t eat.'] },
+  { k: 'yn', ru: 'Вопрос да / нет', note: ['Помощник Do выходит в начало, остальное как было. Интонация — вверх. Отвечают коротко: Yes, I do / No, I don’t.'] },
+  { k: 'wh', ru: 'Вопрос со словом', note: ['Вопросительное слово — в самое начало, дальше do + кто + глагол: What do you eat? Порядок «What you eat?» — ошибка.'] },
+  { k: 'past', ru: 'Прошедшее', note: ['Глагол меняется: eat → ate, drink → drank, go → went, buy → bought. У правильных глаголов — окончание -ed: worked.'] },
+  { k: 'pastq', ru: 'Вопрос о прошлом', note: ['Did в начало — и глагол возвращается в обычную форму: Did you eat? (не Did you ate). Прошедшее «забирает» did.'] },
+  { k: 'fut', ru: 'Будущее', note: ['will перед глаголом. В речи почти всегда сокращают: I will → I’ll.'] },
+  { k: 'want', ru: 'Хочу', note: ['want to + глагол: I want to eat. Хочу вещь — I want a coffee, а вежливо — I’d like a coffee.'] }
+];
+const sw = (r, th, lat, cyr) => ({ r, th, lat, cyr });
+const S_I = sw('S', 'I', 'aɪ', 'ай'), S_YOU = sw('S', 'you', 'juː', 'ю');
+const SENT_FORMS = {
+  st: b => [S_I, sw('V', ...b.v), sw('O', ...b.o)],
+  neg: b => [S_I, sw('NEG', 'don’t', 'doʊnt', 'доунт'), sw('V', ...b.v), sw('O', ...b.o)],
+  yn: b => [sw('Q', 'Do', 'duː', 'ду'), S_YOU, sw('V', ...b.v), sw('O', ...b.o)],
+  wh: b => [sw('QW', ...b.wh), sw('Q', 'do', 'də', 'ду'), S_YOU, sw('V', ...b.v)],
+  past: b => [S_I, sw('V', ...b.past), sw('O', ...b.o)],
+  pastq: b => [sw('Q', 'Did', 'dɪd', 'дид'), S_YOU, sw('V', ...b.v), sw('O', ...b.o)],
+  fut: b => [S_I, sw('T', 'will', 'wɪl', 'уил'), sw('V', ...b.v), sw('O', ...b.o)],
+  want: b => [S_I, sw('M', 'want to', 'wɑːnt tə', 'уонт ту'), sw('V', ...b.v), sw('O', ...b.o)]
+};
+const SENT_BASES = [
+  { ru: 'завтрак', v: ['eat', 'iːt', 'ит'], past: ['ate', 'eɪt', 'эйт'], o: ['breakfast', 'ˈbrekfəst', 'брэкфаст'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я завтракаю'], neg: ['Я не завтракаю'], yn: ['Ты завтракаешь?'], wh: ['Что ты ешь?'], past: ['Я позавтракал(а)'], pastq: ['Ты позавтракал(а)?'], fut: ['Я позавтракаю'], want: ['Я хочу позавтракать'] } },
+  { ru: 'кофе', v: ['drink', 'drɪŋk', 'дринк'], past: ['drank', 'dræŋk', 'дрэнк'], o: ['coffee', 'ˈkɑːfi', 'кафи'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я пью кофе'], neg: ['Я не пью кофе'], yn: ['Ты пьёшь кофе?'], wh: ['Что ты пьёшь?'], past: ['Я выпил(а) кофе'], pastq: ['Ты выпил(а) кофе?'], fut: ['Я выпью кофе'], want: ['Я хочу выпить кофе'] } },
+  { ru: 'на работу', v: ['go', 'ɡoʊ', 'гоу'], past: ['went', 'went', 'уэнт'], o: ['to work', 'tə wɝːk', 'ту уорк'], wh: ['Where', 'wer', 'уэр'], tr: {
+    st: ['Я хожу на работу'], neg: ['Я не хожу на работу'], yn: ['Ты ходишь на работу?'], wh: ['Куда ты ходишь?'], past: ['Я ходил(а) на работу'], pastq: ['Ты ходил(а) на работу?'], fut: ['Я пойду на работу'], want: ['Я хочу пойти на работу'] } },
+  { ru: 'билет', v: ['buy', 'baɪ', 'бай'], past: ['bought', 'bɔːt', 'бот'], o: ['a ticket', 'ə ˈtɪkɪt', 'э тикит'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я покупаю билет'], neg: ['Я не покупаю билет'], yn: ['Ты покупаешь билет?'], wh: ['Что ты покупаешь?'], past: ['Я купил(а) билет'], pastq: ['Ты купил(а) билет?'], fut: ['Я куплю билет'], want: ['Я хочу купить билет'] } }
+];
+const SENT_RULES = [
+  ['arrow-right', ['Порядок слов жёсткий'], ['Кто → действие → что. Переставишь — смысл сломается: The dog bites the man ≠ The man bites the dog.']],
+  ['user', ['Подлежащее обязательно'], ['По-русски «Иду домой», по-английски только I’m going home. Даже о погоде: It’s cold.']],
+  ['circle-help', ['Вопрос — через помощника'], ['do / does / did / are / can выходят вперёд: You like it → Do you like it?']],
+  ['repeat', ['После did — начальная форма'], ['Did you go? — а не Did you went. Прошедшее время «забирает» did.']],
+  ['circle-slash', ['Только одно «не»'], ['I don’t know anything — а не I don’t know nothing. Двойное отрицание по-английски — ошибка.']],
+  ['message-square-reply', ['Короткий ответ'], ['Do you like it? — Yes, I do. Are you ready? — Yes, I am. Просто Yes звучит сухо.']]
+];
+const sentSlots = (k, b) => SENT_FORMS[k](SENT_BASES[b]).map(s => SENT_PH[s.th] ? { r: s.r, ...SENT_PH[s.th]() } : s);
+const sentText = (k, b) => sentSlots(k, b).map(s => s.th).join(SENT_JOIN) + (SENT_END[k] || '');
+
 /* ================= STATE ================= */
 const store = {
   get(k, d) { try { return localStorage.getItem(k) || d } catch (e) { return d } },
@@ -1714,6 +1786,42 @@ function renderSigns() {
 }
 $('#signTabs').addEventListener('click', e => { const b = e.target.closest('[data-sgk]'); if (b) { sgKind = b.dataset.sgk; renderSigns(); icons() } });
 
+/* --- sentence builder --- */
+let stType = 'st', stBase = 0;
+const ROLE_CLS = {
+  S: 'border-sky-400/40 bg-sky-400/10 text-sky-100', V: 'border-accent/50 bg-accent/10 text-amber-100', O: 'border-emerald-400/40 bg-emerald-400/10 text-emerald-100',
+  NEG: 'border-rose-400/50 bg-rose-400/10 text-rose-100', Q: 'border-violet-400/50 bg-violet-400/10 text-violet-100', QW: 'border-violet-400/50 bg-violet-400/10 text-violet-100',
+  T: 'border-orange-300/40 bg-orange-300/10 text-orange-100', M: 'border-orange-300/40 bg-orange-300/10 text-orange-100', P: 'border-white/15 bg-white/5 text-zinc-300'
+};
+function renderSent() {
+  $('#stTypes').innerHTML = SENT_TYPES.map(x => `<button data-sttype="${x.k}" class="${chip(x.k === stType)}">${L(x.ru, x.en)}</button>`).join('');
+  $('#stBases').innerHTML = SENT_BASES.map((b, i) => `<button data-stbase="${i}" class="${chip(i === stBase)}"><span class="font-thai">${b.v[0]}</span> · ${L(b.ru, b.en)}</button>`).join('');
+  const slots = sentSlots(stType, stBase), text = sentText(stType, stBase), type = SENT_TYPES.find(x => x.k === stType);
+  const tr = L(...SENT_BASES[stBase].tr[stType]).replace('{а}', gender === 'f' ? 'а' : '');
+  $('#stOut').innerHTML = `
+    <div class="flex flex-wrap items-start gap-2 md:gap-3">${slots.map((s, i) => `
+      <div class="fade-up flex flex-col items-center gap-1.5" style="animation-delay:${i * 70}ms;animation-fill-mode:both">
+        <span class="rounded-xl border px-3 py-2 font-thai text-2xl md:text-3xl leading-tight ${ROLE_CLS[s.r]}">${s.th}</span>
+        <span class="font-mono text-xs text-accent">${s.lat}</span>
+        <span class="text-[10px] uppercase tracking-wider text-zinc-500">${L(...ROLE_RU[s.r])}</span>
+      </div>`).join('')}${SENT_END[stType] ? `<span class="pt-2 font-thai text-2xl md:text-3xl text-zinc-500">${SENT_END[stType]}</span>` : ''}</div>
+    <div class="mt-8 pt-6 border-t border-white/5 flex items-start justify-between gap-4">
+      <div>
+        <p class="font-thai text-3xl text-white">${text}</p>
+        <p class="mt-2 font-mono text-accent">${slots.map(s => s.lat).join(' ')}</p>
+        ${lang === 'ru' ? `<p class="text-zinc-500">${slots.map(s => s.cyr).join(' ')}</p>` : ''}
+        <p class="mt-3 text-lg font-semibold text-white">${tr}</p>
+      </div>${playBtn(text, 'w-12 h-12')}
+    </div>
+    <p class="mt-5 flex items-start gap-3 rounded-2xl border border-accent/20 bg-accent/5 p-4 text-sm text-zinc-300 leading-relaxed"><i data-lucide="lightbulb" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i><span>${L(...type.note)}</span></p>`;
+  $('#stRules').innerHTML = SENT_RULES.map(([ic, title, body]) => `<div class="rounded-2xl border border-white/10 bg-ink-900 p-5">
+    <div class="flex items-center gap-3"><span class="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-accent/10 text-accent"><i data-lucide="${ic}" class="w-4 h-4"></i></span><h3 class="font-semibold text-white">${L(...title)}</h3></div>
+    <p class="mt-3 text-sm text-zinc-400 leading-relaxed">${L(...body)}</p></div>`).join('');
+}
+const sentPick = () => { renderSent(); icons(); speak(sentText(stType, stBase), $('#stOut [data-say]')) };
+$('#stTypes').addEventListener('click', e => { const b = e.target.closest('[data-sttype]'); if (b) { stType = b.dataset.sttype; sentPick() } });
+$('#stBases').addEventListener('click', e => { const b = e.target.closest('[data-stbase]'); if (b) { stBase = +b.dataset.stbase; sentPick() } });
+
 /* --- hero --- */
 const HERO = PH.filter(x => ['greet', 'polite', 'bye'].includes(x.c));
 let heroI = 0;
@@ -2191,7 +2299,7 @@ $$('[data-goto-tab]').forEach(b => b.onclick = () => { $('#train').scrollIntoVie
 /* ================= TOGGLES & INIT ================= */
 function renderAll() {
   renderText(); renderSounds(); renderTones(); renderPoster(); renderAlphabet(); renderPhrases();
-  renderNum(); renderBody(); renderVerbs(); renderQues(); renderCls(); renderFood(); renderTopVerbs(); renderHero(); renderPools();
+  renderNum(); renderBody(); renderVerbs(); renderQues(); renderCls(); renderFood(); renderSent(); renderTopVerbs(); renderHero(); renderPools();
   renderAns(); renderDlg(); renderEtq(); renderSigns(); lRender(); spRender();
   fcShow(); qRender(); tRender(); trRender(); icons();
 }

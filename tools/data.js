@@ -1,7 +1,9 @@
 /* ================= UI TEXT ================= */
 const T = {
   ru: {
-    navSounds: 'Звуки', navTones: 'Интонация', navAlpha: 'Алфавит', navPhrases: 'Фразы', navWords: 'Слова', navTrain: 'Тренажёры', navTop: 'Топ-глаголы', navDialogs: 'Диалоги', navEtq: 'Этикет',
+    navSounds: 'Звуки', navTones: 'Интонация', navAlpha: 'Алфавит', navPhrases: 'Фразы', navWords: 'Слова', navTrain: 'Тренажёры', navTop: 'Топ-глаголы', navDialogs: 'Диалоги', navEtq: 'Этикет', navGram: 'Грамматика',
+    gramTitle: 'Как строить предложения', gramSub: 'В английском порядок слов жёсткий, а вопросы и отрицания строятся словами-помощниками do, did, will. Выберите тип предложения и посмотрите, как переставляются блоки.',
+    gramType: 'Тип предложения', gramBase: 'Пример', gramRules: 'Главные правила',
     badge: '15 минут до первого разговора',
     heroTitle: 'Американский английский. Без лишнего.',
     heroSub: 'Звуки, которых нет в русском, живые фразы для кафе, такси, отеля и магазина, этикет и чаевые. Слушайте, повторяйте, закрепляйте в тренажёрах.',
@@ -628,3 +630,52 @@ const SIGNS = [
   ['tag', 'yellow', 'GLUTEN FREE', 'ˈɡluːtən friː', 'глутэн фри', 'Без глютена'], ['tag', 'red', 'CASH ONLY', 'kæʃ ˈoʊnli', 'кэш оунли', 'Только наличные'], ['tag', 'yellow', 'SELF CHECKOUT', 'self ˈtʃekaʊt', 'сэлф чэкаут', 'Касса самообслуживания'],
   ['tag', 'yellow', 'TIP JAR', 'tɪp dʒɑːr', 'тип джар', 'Банка для чаевых'], ['tag', 'yellow', 'BUY 2 GET 1', 'baɪ tuː ɡet wʌn', 'бай ту гет уан', 'Купи 2 — третий в подарок', 'buy two, get one']
 ].map(([k, s, th, lat, cyr, ru, say]) => ({ k, s, th, lat, cyr, ru, say, np: 1 }));
+
+/* ================= SENTENCES ================= */
+// Sentence builder: word blocks with a role (S who, V action, O what/where, NEG, Q helper, QW question word, T time, M want)
+const SENT_JOIN = ' ';
+const SENT_END = { st: '.', neg: '.', yn: '?', wh: '?', past: '.', pastq: '?', fut: '.', want: '.' };
+const SENT_PH = {};
+const ROLE_RU = { S: ['кто'], V: ['действие'], O: ['что / где'], NEG: ['не'], Q: ['помощник'], QW: ['вопрос'], T: ['время'], M: ['хочу'] };
+const SENT_TYPES = [
+  { k: 'st', ru: 'Утверждение', note: ['Жёсткий порядок: кто → действие → что. Подлежащее обязательно — просто «Ем завтрак» по-английски сказать нельзя.'] },
+  { k: 'neg', ru: 'Отрицание', note: ['don’t (do not) перед глаголом. Сам глагол не меняется: I don’t eat.'] },
+  { k: 'yn', ru: 'Вопрос да / нет', note: ['Помощник Do выходит в начало, остальное как было. Интонация — вверх. Отвечают коротко: Yes, I do / No, I don’t.'] },
+  { k: 'wh', ru: 'Вопрос со словом', note: ['Вопросительное слово — в самое начало, дальше do + кто + глагол: What do you eat? Порядок «What you eat?» — ошибка.'] },
+  { k: 'past', ru: 'Прошедшее', note: ['Глагол меняется: eat → ate, drink → drank, go → went, buy → bought. У правильных глаголов — окончание -ed: worked.'] },
+  { k: 'pastq', ru: 'Вопрос о прошлом', note: ['Did в начало — и глагол возвращается в обычную форму: Did you eat? (не Did you ate). Прошедшее «забирает» did.'] },
+  { k: 'fut', ru: 'Будущее', note: ['will перед глаголом. В речи почти всегда сокращают: I will → I’ll.'] },
+  { k: 'want', ru: 'Хочу', note: ['want to + глагол: I want to eat. Хочу вещь — I want a coffee, а вежливо — I’d like a coffee.'] }
+];
+const sw = (r, th, lat, cyr) => ({ r, th, lat, cyr });
+const S_I = sw('S', 'I', 'aɪ', 'ай'), S_YOU = sw('S', 'you', 'juː', 'ю');
+const SENT_FORMS = {
+  st: b => [S_I, sw('V', ...b.v), sw('O', ...b.o)],
+  neg: b => [S_I, sw('NEG', 'don’t', 'doʊnt', 'доунт'), sw('V', ...b.v), sw('O', ...b.o)],
+  yn: b => [sw('Q', 'Do', 'duː', 'ду'), S_YOU, sw('V', ...b.v), sw('O', ...b.o)],
+  wh: b => [sw('QW', ...b.wh), sw('Q', 'do', 'də', 'ду'), S_YOU, sw('V', ...b.v)],
+  past: b => [S_I, sw('V', ...b.past), sw('O', ...b.o)],
+  pastq: b => [sw('Q', 'Did', 'dɪd', 'дид'), S_YOU, sw('V', ...b.v), sw('O', ...b.o)],
+  fut: b => [S_I, sw('T', 'will', 'wɪl', 'уил'), sw('V', ...b.v), sw('O', ...b.o)],
+  want: b => [S_I, sw('M', 'want to', 'wɑːnt tə', 'уонт ту'), sw('V', ...b.v), sw('O', ...b.o)]
+};
+const SENT_BASES = [
+  { ru: 'завтрак', v: ['eat', 'iːt', 'ит'], past: ['ate', 'eɪt', 'эйт'], o: ['breakfast', 'ˈbrekfəst', 'брэкфаст'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я завтракаю'], neg: ['Я не завтракаю'], yn: ['Ты завтракаешь?'], wh: ['Что ты ешь?'], past: ['Я позавтракал(а)'], pastq: ['Ты позавтракал(а)?'], fut: ['Я позавтракаю'], want: ['Я хочу позавтракать'] } },
+  { ru: 'кофе', v: ['drink', 'drɪŋk', 'дринк'], past: ['drank', 'dræŋk', 'дрэнк'], o: ['coffee', 'ˈkɑːfi', 'кафи'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я пью кофе'], neg: ['Я не пью кофе'], yn: ['Ты пьёшь кофе?'], wh: ['Что ты пьёшь?'], past: ['Я выпил(а) кофе'], pastq: ['Ты выпил(а) кофе?'], fut: ['Я выпью кофе'], want: ['Я хочу выпить кофе'] } },
+  { ru: 'на работу', v: ['go', 'ɡoʊ', 'гоу'], past: ['went', 'went', 'уэнт'], o: ['to work', 'tə wɝːk', 'ту уорк'], wh: ['Where', 'wer', 'уэр'], tr: {
+    st: ['Я хожу на работу'], neg: ['Я не хожу на работу'], yn: ['Ты ходишь на работу?'], wh: ['Куда ты ходишь?'], past: ['Я ходил(а) на работу'], pastq: ['Ты ходил(а) на работу?'], fut: ['Я пойду на работу'], want: ['Я хочу пойти на работу'] } },
+  { ru: 'билет', v: ['buy', 'baɪ', 'бай'], past: ['bought', 'bɔːt', 'бот'], o: ['a ticket', 'ə ˈtɪkɪt', 'э тикит'], wh: ['What', 'wʌt', 'уот'], tr: {
+    st: ['Я покупаю билет'], neg: ['Я не покупаю билет'], yn: ['Ты покупаешь билет?'], wh: ['Что ты покупаешь?'], past: ['Я купил(а) билет'], pastq: ['Ты купил(а) билет?'], fut: ['Я куплю билет'], want: ['Я хочу купить билет'] } }
+];
+const SENT_RULES = [
+  ['arrow-right', ['Порядок слов жёсткий'], ['Кто → действие → что. Переставишь — смысл сломается: The dog bites the man ≠ The man bites the dog.']],
+  ['user', ['Подлежащее обязательно'], ['По-русски «Иду домой», по-английски только I’m going home. Даже о погоде: It’s cold.']],
+  ['circle-help', ['Вопрос — через помощника'], ['do / does / did / are / can выходят вперёд: You like it → Do you like it?']],
+  ['repeat', ['После did — начальная форма'], ['Did you go? — а не Did you went. Прошедшее время «забирает» did.']],
+  ['circle-slash', ['Только одно «не»'], ['I don’t know anything — а не I don’t know nothing. Двойное отрицание по-английски — ошибка.']],
+  ['message-square-reply', ['Короткий ответ'], ['Do you like it? — Yes, I do. Are you ready? — Yes, I am. Просто Yes звучит сухо.']]
+];
+const sentSlots = (k, b) => SENT_FORMS[k](SENT_BASES[b]).map(s => SENT_PH[s.th] ? { r: s.r, ...SENT_PH[s.th]() } : s);
+const sentText = (k, b) => sentSlots(k, b).map(s => s.th).join(SENT_JOIN) + (SENT_END[k] || '');
