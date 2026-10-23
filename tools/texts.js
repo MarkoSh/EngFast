@@ -19,9 +19,12 @@ const out = new Function(js + `
   SCENES.forEach(sc => { const you = sc.steps[0].them.v === 'f' ? 'm' : 'f'; sc.steps.forEach(st => { res[st.them.v].add(st.them.th); st.you.forEach(o => res[you].add(o.th)) }) });
   ADDR.forEach(x => { f(x.th); f(x.call) }); f(POLITE_YES.f.say); POLITE_PAIRS.forEach(p => f(p[1])); WAI.forEach(w => f(w[2])); SMILE.forEach(x => f(x.th));
   QWORDS.concat(QPARTS).forEach(x => { f(x.th); f(x.xth) });
-  CLS.forEach(x => f(x.th)); ORDER.forEach(it => ORDER_N.forEach(([n]) => f(orderPhrase(it, n).th)));
+  CLS.forEach(x => { f(x.th); f(x.pl) }); ORDER.forEach(it => ORDER_N.forEach(([n]) => f(orderPhrase(it, n).th)));
   FOOD.forEach(g => g.items.forEach(x => f(x.th))); SIGNS.forEach(x => f(x.say || x.th));
   SENT_TYPES.forEach(t => SENT_BASES.forEach((_, b) => f(sentText(t.k, b))));
   return { m: [...res.m], f: [...res.f] };
 `)();
+// English words inside Russian notes and tips (tappable on the page, see sayThai)
+for (const [q] of js.matchAll(/'(?:[^'\\\n]|\\.)*'/g))
+  if (/[а-яА-ЯёЁ]/.test(q)) (q.replace(/<[^>]*>/g, ' ').match(/[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g) || []).forEach(x => out.f.includes(x) || out.f.push(x));
 console.log(JSON.stringify(out));
