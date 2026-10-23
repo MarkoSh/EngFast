@@ -296,7 +296,7 @@ rep("const SITE = 'thai';", "const SITE = 'eng';")
 
 # tappable words in tips: English runs inside Russian text
 assert s.count('const SAY_RUN = ') == 1
-s = re.sub(r'^const SAY_RUN = .*$', lambda m: "const SAY_RUN = /[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g, SAY_HAS = /[A-Za-z]/, SAY_OTHER = /[а-яА-ЯёЁ]/;", s, flags=re.M)
+s = re.sub(r'^const SAY_RUN = .*$', lambda m: "const SAY_RUN = /[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g, SAY_HAS = /[A-Za-z]/, SAY_OTHER = /[а-яА-ЯёЁ]/, SAY_OK = () => true;", s, flags=re.M)
 rep('// Thai words inside notes and tips become tappable: only text that mixes Thai with Latin/Cyrillic,', '// English words inside Russian notes and tips become tappable: only text that mixes both,')
 
 # leftovers check
