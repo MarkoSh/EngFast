@@ -35,8 +35,8 @@ rep("fontFamily: { sans: ['Inter', 'Noto Sans Thai', 'system-ui', 'sans-serif'],
 
 # ---------- nav: no He/She, no RU/EN ----------
 i = s.index('    <div class="flex items-center gap-2">\n      <div class="flex rounded-lg border border-white/10 p-0.5 text-xs font-semibold" role="group" aria-label="Gender">')
-j = s.index('  </nav>', i)
-s = s[:i] + s[j:]
+j = s.index('      <button id="navBtn"', i)   # keep the burger
+s = s[:i] + '    <div class="flex items-center gap-2">\n' + s[j:]
 s = s.replace('ThaiFast', 'EngFast')
 
 # ---------- hero / sections html ----------
