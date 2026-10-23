@@ -295,7 +295,9 @@ rep("const POLITE_YES =", "const POLITE_PAIRS = [['Give me a coffee.', 'Can I ge
 rep("const SITE = 'thai';", "const SITE = 'eng';")
 
 # no keyboard block: English needs no layout lesson
-between('  <!-- KEYBOARD -->', '  <!-- CTA -->', '')
+between('  <!-- KEYBOARD -->', '  <!-- TWISTERS -->', '')
+rep('<p class="font-mono text-sm text-accent">14</p>', '<p class="font-mono text-sm text-accent">13</p>')
+rep('<p class="font-mono text-sm text-accent">15</p>', '<p class="font-mono text-sm text-accent">14</p>')
 between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
 rep(' renderMore(); kbRender();', ' renderMore();')
 
