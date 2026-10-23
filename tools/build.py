@@ -294,6 +294,11 @@ rep("const POLITE_YES =", "const POLITE_PAIRS = [['Give me a coffee.', 'Can I ge
 
 rep("const SITE = 'thai';", "const SITE = 'eng';")
 
+# no keyboard block: English needs no layout lesson
+between('  <!-- KEYBOARD -->', '  <!-- CTA -->', '')
+between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
+rep(' renderMore(); kbRender();', ' renderMore();')
+
 # tappable words in tips: English runs inside Russian text
 assert s.count('const SAY_RUN = ') == 1
 s = re.sub(r'^const SAY_RUN = .*$', lambda m: "const SAY_RUN = /[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g, SAY_HAS = /[A-Za-z]/, SAY_OTHER = /[а-яА-ЯёЁ]/, SAY_OK = () => true;", s, flags=re.M)

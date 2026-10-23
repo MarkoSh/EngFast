@@ -40,6 +40,10 @@ tailwind.config = {
   .pop { animation: pop .35s; }
   @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(232,176,75,.55) } 100% { box-shadow: 0 0 0 14px rgba(232,176,75,0) } }
   .speaking { animation: pulseRing 1s infinite; color: #e8b04b; border-color: #e8b04b; }
+  .kb-key { position: relative; flex: 1 1 0; height: 3.5rem; border-radius: .6rem; border: 1px solid #ffffff1a; background: #0d0e11; transition: background .15s, border-color .15s, transform .1s; }
+  .kb-key:hover { background: #ffffff0d; } .kb-key:active { transform: translateY(1px); }
+  .kb-used { border-color: #e8b04b80; } .kb-shift-on { background: #e8b04b26; }
+  .kb-on, .kb-on * { background: #e8b04b !important; color: #09090b !important; border-color: #e8b04b !important; }
   .say-th { cursor: pointer; color: #e4e4e7; text-decoration: underline dotted #e8b04b80; text-underline-offset: 4px; transition: color .2s; }
   .say-th:hover, .say-th.speaking { color: #e8b04b; animation: none; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
@@ -1373,7 +1377,7 @@ function loadAudio(url) {
   return audioLoading.get(url);
 }
 const urlsOf = (text, voice) => String(text).split('|').map(p => audioUrl(p, voice));
-const preload = (text, voice) => urlsOf(text, voice).forEach(loadAudio);
+const preload = (text, voice) => text && urlsOf(text, voice).forEach(loadAudio);
 // background preloading goes through a small queue so it never blocks what the user clicks
 const bgQueue = []; let bgActive = 0;
 function preloadIdle(text, voice) { bgQueue.push(...urlsOf(text, voice)); pumpBg() }
@@ -1410,7 +1414,7 @@ function toast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => $('#toast').classList.add('opacity-0'), 4500);
 }
-const warmAudio = e => { const b = e.target.closest?.('[data-say]'); if (b) preload(b.dataset.say, b.dataset.voice) };
+const warmAudio = e => { const b = e.target.closest?.('[data-say]'); if (b?.dataset.say) preload(b.dataset.say, b.dataset.voice) };
 document.addEventListener('pointerover', warmAudio, { passive: true });
 document.addEventListener('touchstart', warmAudio, { passive: true });
 document.addEventListener('focusin', warmAudio);
@@ -2384,7 +2388,7 @@ renderAll();
 const audioIO = new IntersectionObserver(es => es.forEach(e => {
   if (!e.isIntersecting) return;
   audioIO.unobserve(e.target);
-  (window.requestIdleCallback || setTimeout)(() => e.target.querySelectorAll('[data-say]').forEach(b => preloadIdle(b.dataset.say, b.dataset.voice)));
+  (window.requestIdleCallback || setTimeout)(() => e.target.querySelectorAll('[data-say]:not([data-say=""])').forEach(b => preloadIdle(b.dataset.say, b.dataset.voice)));
 }), { rootMargin: '300px' });
 $$('main > section').forEach(sec => audioIO.observe(sec));
 // first screen right away: the phrase of the day now, the rest of its list in the background
