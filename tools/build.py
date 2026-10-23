@@ -292,6 +292,8 @@ rep("r.lang = 'th-TH';", "r.lang = 'en-US';")
 # polite pairs data (used by renderEtq)
 rep("const POLITE_YES =", "const POLITE_PAIRS = [['Give me a coffee.', 'Can I get a coffee, please?'], ['I want the check.', 'Could we get the check, please?'], ['Repeat.', 'Sorry, could you say that again?']];\nconst POLITE_YES =")
 
+rep("const SITE = 'thai';", "const SITE = 'eng';")
+
 # leftovers check
 for bad in ['CONS', 'thaiNum', 'thaiDigits', 'VOWELS32', 'TONEMARKS', 'VSAY', 'PRONOUN', 'INI[', 'FIN[', 'ไ', 'ก', 'ครับ']:
     if bad in s:
