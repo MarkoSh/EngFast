@@ -227,7 +227,7 @@ rep('px-3 py-4 text-center font-thai text-2xl md:text-3xl font-semibold group-ho
 rep('pl-7 pr-3 py-4 text-center font-thai text-2xl font-bold group-hover', 'pl-7 pr-3 py-4 text-center text-base md:text-xl font-bold group-hover')
 
 # dialogs: your replies use the voice opposite to the speaker
-rep("const dlgYouV = () => undefined;\nconst dlgYouSay = o => o.th + pt().th;", "const dlgYouV = () => SCENES[dlg.s].steps[0].them.v === 'f' ? 'm' : 'f';\nconst dlgYouSay = o => o.th;")
+rep("const dlgYouV = () => undefined;\nconst dlgYouSay = o => o.th + pt(o.th).th;", "const dlgYouV = () => SCENES[dlg.s].steps[0].them.v === 'f' ? 'm' : 'f';\nconst dlgYouSay = o => o.th;")
 rep("// your replies: He/She voice with the polite particle", "// your replies: the voice opposite to the speaker")
 rep('<button data-say="${b.th + p.th}" class="text-left max-w-[88%]', '<button data-say="${b.th}" data-voice="${dlgYouV()}" class="text-left max-w-[88%]')
 
