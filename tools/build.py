@@ -67,6 +67,9 @@ rep('<html lang="ru" class="scroll-smooth">', '<html lang="ru" class="scroll-smo
 
 # ---------- data ----------
 between('/* ================= UI TEXT ================= */', '/* ================= STATE ================= */', open(HERE + 'data.js', encoding='utf8').read() + '\n')
+# the stories live in ThaiFast's page (ru/en/th); carry the same list over
+_st = re.search(r'^const STORIES = .*;$', open(SRC, encoding='utf8').read(), re.M).group(0)
+rep('/* ================= STATE ================= */', _st + '\n\n/* ================= STATE ================= */')
 
 # ---------- state & speech ----------
 rep("let lang = store.get('tf-lang', 'ru');\nlet gender = store.get('tf-gender', 'm');", "const lang = 'ru';\nconst gender = 'f'; // narrator voice; the 'm' voice is used for other speakers")
@@ -302,6 +305,8 @@ between('  <!-- KEYBOARD -->', '  <!-- TWISTERS -->', '')
 rep('<p class="font-mono text-sm text-accent">14</p>', '<p class="font-mono text-sm text-accent">13</p>')
 rep('<p class="font-mono text-sm text-accent">15</p>', '<p class="font-mono text-sm text-accent">14</p>')
 rep('<p class="font-mono text-sm text-accent">16</p>', '<p class="font-mono text-sm text-accent">15</p>')
+rep('<p class="font-mono text-sm text-accent">17</p>', '<p class="font-mono text-sm text-accent">16</p>')
+rep("const STORY_L = 'th', STORY_VOICE = 'm';", "const STORY_L = 'en', STORY_VOICE = 'm';")
 between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
 rep(' renderMore(); kbRender();', ' renderMore();')
 

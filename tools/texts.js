@@ -20,7 +20,7 @@ const out = new Function(js + `
   ADDR.forEach(x => { f(x.th); f(x.call) }); f(POLITE_YES.f.say); POLITE_PAIRS.forEach(p => f(p[1])); WAI.forEach(w => f(w[2])); SMILE.forEach(x => f(x.th));
   QWORDS.concat(QPARTS).forEach(x => { f(x.th); f(x.xth) });
   CLS.forEach(x => { f(x.th); f(x.pl) }); ORDER.forEach(it => ORDER_N.forEach(([n]) => f(orderPhrase(it, n).th)));
-  FOOD.forEach(g => g.items.forEach(x => f(x.th))); SIGNS.forEach(x => f(x.say || x.th)); TWISTERS.forEach(x => f(x.th));
+  FOOD.forEach(g => g.items.forEach(x => f(x.th))); SIGNS.forEach(x => f(x.say || x.th)); TWISTERS.forEach(x => f(x.th)); STORIES.forEach(st => st.paras.forEach(x => res.m.add(x.en)));
   SENT_TYPES.forEach(t => SENT_BASES.forEach((_, b) => f(sentText(t.k, b))));
   return { m: [...res.m], f: [...res.f] };
 `)();
