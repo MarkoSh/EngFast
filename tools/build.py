@@ -301,6 +301,7 @@ rep("const SITE = 'thai';", "const SITE = 'eng';")
 between('  <!-- KEYBOARD -->', '  <!-- TWISTERS -->', '')
 rep('<p class="font-mono text-sm text-accent">14</p>', '<p class="font-mono text-sm text-accent">13</p>')
 rep('<p class="font-mono text-sm text-accent">15</p>', '<p class="font-mono text-sm text-accent">14</p>')
+rep('<p class="font-mono text-sm text-accent">16</p>', '<p class="font-mono text-sm text-accent">15</p>')
 between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
 rep(' renderMore(); kbRender();', ' renderMore();')
 
