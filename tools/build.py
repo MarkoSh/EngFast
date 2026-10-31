@@ -303,6 +303,7 @@ rep('<p class="font-mono text-sm text-accent">14</p>', '<p class="font-mono text
 rep('<p class="font-mono text-sm text-accent">15</p>', '<p class="font-mono text-sm text-accent">14</p>')
 rep('<p class="font-mono text-sm text-accent">16</p>', '<p class="font-mono text-sm text-accent">15</p>')
 rep('<p class="font-mono text-sm text-accent">17</p>', '<p class="font-mono text-sm text-accent">16</p>')
+rep('<p class="font-mono text-sm text-accent">18</p>', '<p class="font-mono text-sm text-accent">17</p>')
 rep("const STORY_L = 'th';", "const STORY_L = 'en';")
 between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
 rep(' renderMore(); kbRender();', ' renderMore();')
