@@ -305,8 +305,6 @@ rep('font-mono text-xs text-zinc-300">8°</span>', 'font-mono text-xs text-zinc-
 # copybook: a sheet per letter = capital, small, and the joined pair (Aa)
 rep("const PRN_VARIANTS = x => [x];", "const PRN_VARIANTS = x => /[a-z]/i.test(x.g) ? [[x.g.toUpperCase(), 'prnV_up'], [x.g.toLowerCase(), 'prnV_low'], [x.g.toUpperCase() + x.g.toLowerCase(), 'prnV_join']].map(([g, k]) => ({ ...x, g, tag: t(k) })) : [x];")
 
-rep('<p class="font-mono text-sm text-accent">19</p>', '<p class="font-mono text-sm text-accent">18</p>')  # shadowing section number
-
 # no keyboard block: English needs no layout lesson
 between('  <!-- KEYBOARD -->', '  <!-- TWISTERS -->', '')
 rep('<p class="font-mono text-sm text-accent">14</p>', '<p class="font-mono text-sm text-accent">13</p>')
@@ -314,6 +312,7 @@ rep('<p class="font-mono text-sm text-accent">15</p>', '<p class="font-mono text
 rep('<p class="font-mono text-sm text-accent">16</p>', '<p class="font-mono text-sm text-accent">15</p>')
 rep('<p class="font-mono text-sm text-accent">17</p>', '<p class="font-mono text-sm text-accent">16</p>')
 rep('<p class="font-mono text-sm text-accent">18</p>', '<p class="font-mono text-sm text-accent">17</p>')
+rep('<p class="font-mono text-sm text-accent">19</p>', '<p class="font-mono text-sm text-accent">18</p>')  # shadowing section number
 rep("const STORY_L = 'th';", "const STORY_L = 'en';")
 between('/* ================= KEYBOARD ================= */', 'function renderAll() {', '')
 rep(' renderMore(); kbRender();', ' renderMore();')
