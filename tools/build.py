@@ -279,7 +279,7 @@ rep("const tr = { set: 'cons', size: 'm',", "const tr = { set: 'up', size: 'm',"
 rep("const TR_STYLES = { hand: ['Playpen Sans Thai', 400] };",
     "const TR_STYLES = { hand: ['Playwrite US Trad', 400] };")
 rep("// template style: neat handwriting", "// template style: US school cursive")
-rep("tr.style = 'hand'; tr.slant = 0;", "tr.style = 'hand'; tr.slant = 0;")
+rep("tr.style = 'hand'; tr.slant = 8; // default lean like real handwriting", "tr.style = 'hand'; tr.slant = 0;")
 rep('class="leading-none">กขค</span>', 'class="leading-none">Abc</span>')
 rep("document.fonts.load(trFontCss(100), 'กอ๑')", "document.fonts.load(trFontCss(100), 'Aa1')")
 rep("""document.fonts?.load(trFontCss(100), 'กอ๑')""", """document.fonts?.load(trFontCss(100), 'Aa1')""")
@@ -296,6 +296,11 @@ rep("r.lang = 'th-TH';", "r.lang = 'en-US';")
 rep("const POLITE_YES =", "const POLITE_PAIRS = [['Give me a coffee.', 'Can I get a coffee, please?'], ['I want the check.', 'Could we get the check, please?'], ['Repeat.', 'Sorry, could you say that again?']];\nconst POLITE_YES =")
 
 rep("const SITE = 'thai';", "const SITE = 'eng';")
+
+# copybook: x-height is the body of an English line; Playwrite is already slanted
+rep("const PRN_BODY = 'ก'", "const PRN_BODY = 'x'")
+rep('id="trSlant" type="range" min="0" max="15" step="1" value="8"', 'id="trSlant" type="range" min="0" max="15" step="1" value="0"')
+rep('font-mono text-xs text-zinc-300">8°</span>', 'font-mono text-xs text-zinc-300">0°</span>')
 
 # no keyboard block: English needs no layout lesson
 between('  <!-- KEYBOARD -->', '  <!-- TWISTERS -->', '')
