@@ -32,7 +32,7 @@ def between(a, b, new, keep_b=True):
 rep('<title>ThaiFast — тайский с нуля</title>', '<title>EngFast — американский английский</title>')
 rep('content="Тайский язык с нуля: звуки, тоны, алфавит, цифры, нужные фразы и быстрые тренажёры."', 'content="Американский английский для русскоговорящих: звуки, интонация, живые фразы, этикет, чаевые и быстрые тренажёры."')
 s = re.sub(r'<link href="https://fonts.googleapis.com/css2\?[^"]+" rel="stylesheet">',
-           '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&family=Playpen+Sans:wght@400&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">', s, count=1)
+           '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&family=Playwrite+US+Trad:wght@400&display=swap" rel="stylesheet">', s, count=1)
 rep("fontFamily: { sans: ['Inter', 'Noto Sans Thai', 'system-ui', 'sans-serif'], thai: ['Noto Sans Thai', 'sans-serif'], loop: ['Noto Sans Thai Looped', 'Noto Sans Thai', 'sans-serif'] },",
     "fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], thai: ['Inter', 'system-ui', 'sans-serif'], loop: ['Caveat', 'cursive'] },")
 
@@ -276,13 +276,13 @@ between('const TR_SETS = {', 'const TR_W = 340;', r'''const TR_SETS = {
 };
 ''')
 rep("const tr = { set: 'cons', size: 'm',", "const tr = { set: 'up', size: 'm',")
-rep("const TR_STYLES = { loop: ['Noto Sans Thai Looped', 500], school: ['Mali', 500], hand: ['Sriracha', 400], cursive: ['Charm', 700] };",
-    "const TR_STYLES = { print: ['Inter', 500], school: ['Playpen Sans', 400], hand: ['Caveat', 600], cursive: ['Dancing Script', 600] };")
-rep("// template styles: printed with loops + three handwriting fonts", "// template styles: print + three handwriting fonts (school print, casual hand, cursive)")
-rep("tr.style = 'loop'; tr.slant = 0;", "tr.style = 'print'; tr.slant = 0;")
+rep("const TR_STYLES = { hand: ['Playpen Sans Thai', 400] };",
+    "const TR_STYLES = { hand: ['Playwrite US Trad', 400] };")
+rep("// template style: neat handwriting", "// template style: US school cursive")
+rep("tr.style = 'hand'; tr.slant = 0;", "tr.style = 'hand'; tr.slant = 0;")
 rep('class="leading-none">กขค</span>', 'class="leading-none">Abc</span>')
 rep("document.fonts.load(trFontCss(100), 'กอ๑')", "document.fonts.load(trFontCss(100), 'Aa1')")
-rep("""document.fonts?.load('500 100px "Noto Sans Thai Looped"', 'กอ๑')""", """document.fonts?.load("500 100px 'Inter'", 'Aa1')""")
+rep("""document.fonts?.load(trFontCss(100), 'กอ๑')""", """document.fonts?.load(trFontCss(100), 'Aa1')""")
 
 rep('<span class="font-loop leading-none ${{ l: \'text-lg\'', '<span class="font-semibold leading-none ${{ l: \'text-lg\'')
 rep("xs: 'text-[7px]' }[k]}\">ก</span>", "xs: 'text-[7px]' }[k]}\">A</span>")
