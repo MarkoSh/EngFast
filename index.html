@@ -844,6 +844,7 @@ const T = {
     trPrint: 'Прописи для печати', trPrintHint: 'Лист на каждую букву выбранного набора — в выбранном стиле и наклоне. В окне печати выберите «Сохранить как PDF» или принтер (A4, масштаб 100%).',
     trNote: 'Если буква не выводится строго по нарисованной — возможно, дело в неточности ввода вашего устройства. Калибровка экрана или стилуса может помочь, но лишь временно или не так, как хотелось бы. Поэтому обязательно тренируйте письмо на бумаге — ручкой или карандашом: для этого и есть прописи.',
     prnS_l: 'Крупно', prnS_m: 'Обычно', prnS_s: 'Мелко', prnMm: 'мм', prnDec: ',', prnSize: 'Высота строчной буквы — {mm} мм: от сплошной линии до пунктирной; над пунктиром — место для заглавных и выносных элементов, под сплошной — для хвостов. Проверьте масштаб при печати: эта полоска должна быть',
+    prnV_up: 'Заглавная', prnV_low: 'Строчная', prnV_join: 'Соединение',
     prnTitle: 'Прописи английских букв', prnHow: 'Обведите первые буквы в строке, затем пишите поверх — образец светлеет с каждой буквой. В конце строки пишите сами.',
     trTip: 'Американские дети сначала пишут печатными буквами, а курсиву (cursive) учатся во 2–3 классе. Буквы ведут сверху вниз, круглые — против часовой стрелки.',
     tvTitle: 'самых частых глаголов', tvSub: 'Отобраны по частоте в живой американской речи: субтитрах фильмов, соцсетях и форумах. Под глаголом — неправильные формы, если они есть. Нажмите на слово или пример, чтобы услышать.',
@@ -2628,6 +2629,8 @@ const PRN_FADE = [.75, .6, .45, .32, .2, .1, .05, 0, 0, 0];
 const PRN_BODY = 'x', PRN_UP = 1, PRN_DOWN = .9;
 const PRN_SIZES = { l: { body: 6, rows: 4 }, m: { body: 4.5, rows: 5 }, s: { body: 3.5, rows: 6 } };
 const PRN_W = 190;
+// a printed item may expand into several blocks (EngFast: capital, small, joined) — a group of several gets a page of its own
+const PRN_VARIANTS = x => /[a-z]/i.test(x.g) ? [[x.g.toUpperCase(), 'prnV_up'], [x.g.toLowerCase(), 'prnV_low'], [x.g.toUpperCase() + x.g.toLowerCase(), 'prnV_join']].map(([g, k]) => ({ ...x, g, tag: t(k) })) : [x];
 function trPrint() {
   const [fam, w] = TR_STYLES[tr.style], { body, rows } = PRN_SIZES[$('#trPrnSize').value];
   const c = document.createElement('canvas').getContext('2d');
@@ -2638,9 +2641,9 @@ function trPrint() {
   const line = g => `<svg viewBox="0 0 ${PRN_W} ${H}" height="${H}mm">${hl(0, '#bbb')}${hl(a, '#999', 'stroke-dasharray="1.2 1.2"')}${hl(base, '#555')}${hl(H, '#bbb')}`
     + PRN_FADE.map((o, k) => (k ? `<line x1="${k * cw}" x2="${k * cw}" y1="0" y2="${H}" stroke="#ccc" stroke-width=".2" stroke-dasharray=".4 1"/>` : '')
       + (o ? `<text transform="translate(${(k + .5) * cw} ${base}) matrix(1 0 ${-tan} 1 0 0)" text-anchor="middle" font-family="${fam}" font-weight="${w}" font-size="${fs}" opacity="${o}">${g}</text>` : '')).join('') + '</svg>';
-  const blk = x => `<section class="blk"><div style="display:flex;align-items:baseline;gap:4mm;margin-bottom:2mm"><span style="font:${w} 9mm '${fam}';transform:skewX(${-tr.slant}deg)">${x.g}</span><span style="font:600 4mm Inter">${x.lat}</span><span style="font:3.5mm Inter;color:#555">${L(x.ru, x.en)}</span></div>${line(x.g).repeat(rows)}</section>`;
+  const blk = x => `<section class="blk"><div style="display:flex;align-items:baseline;gap:4mm;margin-bottom:2mm"><span style="font:${w} 9mm '${fam}';transform:skewX(${-tr.slant}deg)">${x.g}</span><span style="font:600 4mm Inter">${x.lat}</span><span style="font:3.5mm Inter;color:#555">${L(x.ru, x.en)}</span>${x.tag ? `<span style="font:3.5mm Inter;color:#555;margin-left:auto">${x.tag}</span>` : ''}</div>${line(x.g).repeat(rows)}</section>`;
   const mm = String(body).replace('.', t('prnDec'));
-  $('#prn').innerHTML = `<p style="font:3mm/1.4 Inter;color:#555;margin:0 0 4mm"><b>${t('prnTitle')}.</b> ${t('prnHow')} ${t('prnSize').replace('{mm}', mm)} <span style="display:inline-block;width:10mm;border-top:1mm solid #000;vertical-align:middle"></span> = 10 ${t('prnMm')}. ${t('trNote')}</p>` + trList().map(blk).join('');
+  $('#prn').innerHTML = `<p style="font:3mm/1.4 Inter;color:#555;margin:0 0 4mm;${PRN_VARIANTS(trList()[0]).length > 1 ? 'break-after:page' : ''}"><b>${t('prnTitle')}.</b> ${t('prnHow')} ${t('prnSize').replace('{mm}', mm)} <span style="display:inline-block;width:10mm;border-top:1mm solid #000;vertical-align:middle"></span> = 10 ${t('prnMm')}. ${t('trNote')}</p>` + trList().map(x => { const v = PRN_VARIANTS(x); return v.length > 1 ? `<div style="break-after:page">${v.map(blk).join('')}</div>` : blk(v[0]) }).join('');
   document.body.classList.add('printing');
   addEventListener('afterprint', () => document.body.classList.remove('printing'), { once: true });
   document.fonts.load(`${w} 40px '${fam}'`, 'กอ๑').finally(() => print());
