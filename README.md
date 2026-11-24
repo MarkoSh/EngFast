@@ -9,6 +9,7 @@
 tools/data.js       весь контент: тексты интерфейса (T), фразы, слова, идиомы и т. д.
 tools/build.py      ThaiFast/index.html + data.js + точечные патчи → index.html, затем offline.py
 tools/texts.js      все английские строки для озвучки (f — Ava, рассказчик; m — Andrew)
+tools/story/        тренажёр «Рассказы»: lexicon.tsv (русское слово → английское), events.tsv (перестановки для режима 3), build.py → story-data.js, translit.py (IPA → русские буквы), target.js (английский блок движка)
 tools/gen_audio.py  озвучка через edge-tts в audio/<m|f>/<fnv1a>.mp3
 ```
 
@@ -16,3 +17,5 @@ tools/gen_audio.py  озвучка через edge-tts в audio/<m|f>/<fnv1a>.mp
 `node tools/texts.js > /tmp/t.json && python3 tools/gen_audio.py /tmp/t.json` → коммит.
 
 Частота идиом — Google Books Ngram (en-US, 2015–2019, на миллион слов), источник указан на странице.
+
+Тренажёр «Рассказы» (режимы буквы / слова / микс / порядок, нарастание до 60%) — движок ThaiFast, описание в его README. Пересборка данных: `python3 tools/story/extract.py`, затем `tools/story/build.py` (команда в докстринге), `python3 tools/build.py`, озвучка новых слов.

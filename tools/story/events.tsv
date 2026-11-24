@@ -1,0 +1,27 @@
+# Mode 3 (correct English order): para, Russian span, English, literal order (Russian words), why (key from WHY in build.py)
+3	лаборатории Корабля	the Ship’s laboratory	Корабля лаборатория	GEN
+3	руководством моего отца	my father’s direction	моего отца руководством	GEN
+3	культурой наноботов	nanobot culture	наноботов культурой	NOUNADJ
+3	культуру роботов	robot culture	роботов культуру	NOUNADJ
+4	Догадки читателя	the reader’s guesses	читателя догадки	GEN
+8	В чем же проблема	what is the problem	что есть проблема	INV
+10	поверхность планеты	the planet’s surface	планеты поверхность	GEN
+10	размножившихся наноботов	nanobots that have multiplied	наноботов, которые размножились	REL
+12	В чем же проблема	what is the problem	что есть проблема	INV
+13	миллионы модификаций наноботов	millions of nanobot variants	миллионы наноботов модификаций	NOUNADJ
+13	мутировавшие боты	the bots that mutated	боты, которые мутировали	REL
+13	срок жизни	lifespan	жизни срок	NOUNADJ
+13	сцепленных наноботов	nanobots stuck together	наноботов сцепленных	REL
+14	Как обстоит дело со второй планетой	how do things stand with the second planet	как делают стоять дела со второй планетой	AUX
+15	зондов Корабля	the Ship’s probes	Корабля зонды	GEN
+16	мутацию наноботов	the nanobots’ mutation	наноботов мутацию	GEN
+18	колония наноботов	nanobot colony	наноботов колония	NOUNADJ
+18	поверхность планеты	the planet’s surface	планеты поверхность	GEN
+19	деятельностью наноботов	nanobot activity	наноботов деятельностью	NOUNADJ
+22	Как вы себе представляете контакт	how do you picture contact	как делаете вы представлять контакт	AUX
+23	Что мы знаем о них	what do we know about them	что делаем мы знать о них	AUX
+26	что вы будете делать	what will you do	что будете вы делать	INV
+33	орбитой Плутона	Pluto’s orbit	Плутона орбитой	GEN
+33	поднятая журналистами шумиха	the hype stirred up by journalists	шумиха, поднятая журналистами	REL
+34	Возраст корабля	the ship’s age	корабля возраст	GEN
+34	оборудование корабля	the ship’s equipment	корабля оборудование	GEN

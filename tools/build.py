@@ -325,9 +325,14 @@ assert s.count('const SAY_RUN = ') == 1
 s = re.sub(r'^const SAY_RUN = .*$', lambda m: "const SAY_RUN = /[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g, SAY_HAS = /[A-Za-z]/, SAY_OTHER = /[а-яА-ЯёЁ]/, SAY_OK = () => true;", s, flags=re.M)
 rep('// Thai words inside notes and tips become tappable: only text that mixes Thai with Latin/Cyrillic,', '// English words inside Russian notes and tips become tappable: only text that mixes both,')
 
-# the Thai-only story trainer (letters, balloons): not for this site; the story stays as a plain text
-between('/*@@ST-A*/', '/*@@ST-A-END*/', '')
-between('/*@@ST-C*/', '/*@@ST-C-END*/', '')
+# the Thai pronouns tab (ThaiFast only): English pronouns would need their own content
+s = re.sub(r'          <button data-vtab="pron".*?</button>\n', '', s, count=1)
+s = re.sub(r'      <!-- Pronouns -->.*?(?=\n      <!-- )', '', s, count=1, flags=re.S)
+rep(' renderPron();', '')
+between('function renderPron() {', 'function renderBody() {', '')
+
+# the story trainer: the engine is ThaiFast's, only the target block (letters, balloon) is English; the data is story-data.js
+between('/*@@ST-T*/', '/*@@ST-T-END*/', open(os.path.join(HERE, 'story', 'target.js'), encoding='utf8').read().replace('/*@@ST-T-END*/\n', ''))
 
 # leftovers check
 for bad in ['CONS', 'thaiNum', 'thaiDigits', 'VOWELS32', 'TONEMARKS', 'VSAY', 'PRONOUN', 'INI[', 'FIN[', 'ไ', 'ก', 'ครับ']:

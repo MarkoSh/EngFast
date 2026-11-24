@@ -27,4 +27,9 @@ const out = new Function(js + `
 // English words inside Russian notes and tips (tappable on the page, see sayThai)
 for (const [q] of js.matchAll(/'(?:[^'\\\n]|\\.)*'/g))
   if (/[а-яА-ЯёЁ]/.test(q)) (q.replace(/<[^>]*>/g, ' ').match(/[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g) || []).forEach(x => out.f.includes(x) || out.f.push(x));
+// the story trainer: every English word and phrase of story-data.js (built by tools/story/build.py), spoken by the narrator
+try {
+  const sd = new Function(require('fs').readFileSync(__dirname + '/../story-data.js', 'utf8') + ';return STORY_DATA')();
+  [...sd.lex.map(x => x[0]), ...sd.ev.map(x => x.th)].forEach(x => out.f.includes(x) || out.f.push(x));
+} catch (e) { /* no story data yet */ }
 console.log(JSON.stringify(out));

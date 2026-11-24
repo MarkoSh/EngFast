@@ -73,6 +73,17 @@ tailwind.config = {
   #navMenu:not(.hidden) { animation: navIn .2s ease-out; } @keyframes navIn { from { opacity: 0; transform: translateY(-6px) } }
   .say-th { cursor: pointer; color: #e4e4e7; text-decoration: underline dotted #e8b04b80; text-underline-offset: 4px; transition: color .2s; }
   .say-th:hover, .say-th.speaking { color: #e8b04b; animation: none; }
+  .st-th { cursor: pointer; color: #e8b04b; }
+  .st-w { cursor: pointer; color: #e8b04b; text-decoration: underline dotted #e8b04b99; text-underline-offset: 4px; }
+  .st-w:hover, .st-w.speaking { color: #f6cf7d; }
+  .st-l { cursor: pointer; color: #c4b5fd; font-weight: 600; font-size: 1.12em; background: rgba(196,181,253,.13); border-radius: 4px; padding: 0 2px; }
+  .st-l:hover, .st-l.speaking { background: rgba(196,181,253,.28); }
+  .st-sw { cursor: pointer; color: #7dd3fc; text-decoration: underline wavy rgba(125,211,252,.7); text-underline-offset: 5px; }
+  .st-sw::after { content: '⇄'; font: 600 .62em Inter, sans-serif; margin-left: 2px; vertical-align: super; color: #7dd3fc; }
+  .st-sw:hover, .st-sw.speaking { color: #bae6fd; }
+  /* no highlight: swapped letters, words and moved phrases look like the rest of the text (balloons still work) */
+  .st-plain .st-l, .st-plain .st-w, .st-plain .st-sw, .st-plain .st-th { color: inherit; background: none; text-decoration: none; font-weight: inherit; font-size: inherit; padding: 0; }
+  .st-plain .st-sw::after { content: none; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
   .fade-up { animation: fadeUp .45s cubic-bezier(.2,.8,.2,1); }
   .grid-bg { background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; }
@@ -284,6 +295,7 @@ tailwind.config = {
           <button data-vtab="food" class="vtab px-4 py-2 rounded-xl flex items-center gap-2 transition"><i data-lucide="soup" class="w-4 h-4"></i><span data-i18n="vFood"></span></button>
         </div>
       </div>
+
 
       <!-- Numbers -->
       <div data-vpanel="num" class="mt-10">
@@ -783,6 +795,14 @@ const T = {
   ru: {
     navSounds: 'Звуки', navTones: 'Интонация', navAlpha: 'Алфавит', navPhrases: 'Фразы', navWords: 'Слова', navTrain: 'Тренажёры', navTop: 'Топ-глаголы', navDialogs: 'Диалоги', navEtq: 'Этикет', navGram: 'Грамматика',
     stTitle: 'Рассказы', stBadge: 'эксперимент', stSub: 'Настоящая литература, где часть слов — на английском, с произношением и переводом в скобках. Нажмите на английское слово, чтобы услышать его.',
+    stMT: 'Текст', stM0: 'Буквы', stM1: 'Слова', stM2: 'Микс', stM3: 'Порядок', stGrow: 'Нарастание', stSeed: 'Другой набор', stPlain: 'Без подсветки', stPlainH: 'Заменённое выглядит как обычный текст; баллуны работают',
+    stDt: 'Оригинал рассказа, без замен.',
+    stD0: 'В некоторых словах русская буква заменена латинской, самой близкой по звуку. Нажмите на неё: название буквы, как читается и слово-пример.',
+    stD1: 'Слова заменены английскими на своих местах, в русском порядке слов. Нажмите на слово: транскрипция и что было в тексте.',
+    stD2: 'Смесь: часть слов английские целиком, в остальных заменены отдельные буквы.',
+    stD3: 'Английские слова стоят в правильном английском порядке. Подчёркнутое волной — фразы, где порядок поменялся: наведите или нажмите, и увидите, как было и почему.',
+    stDG: 'Чем дальше по рассказу, тем больше замен: от 8% до 60% по параболе.',
+    stTipFrom: 'В тексте было', stTipRep: 'Заменяет', stTipOrig: 'Как было в оригинале', stTipLit: 'Дословно, по-русски', stTipWhy: 'Почему поменяли', stTipSound: 'Как читается', stTipExample: 'Пример',
     stMore: 'Читать полностью', stLess: 'Свернуть', stBy: 'автор —', stSrc: 'Оригинал', stNote: 'Английские вставки — любительские. Автор разрешает свободно распространять свои тексты с указанием «автор — Леонид Каганов» и ссылкой на его сайт.',
     fcTitle: 'Интересные факты', fcSub: 'Физика и химия, которую видно на кухне, трюки собственного тела и сам английский. Английские слова в тексте кликабельны — нажмите, чтобы услышать.',
     fc_phys: 'Физика и химия', fc_body: 'Трюки тела', fc_lang: 'Об английском',
@@ -2278,19 +2298,176 @@ function renderIdioms() {
 }
 const STORY_L = 'en';
 let storyOpen = false;
+
+/* --- story trainer: modes 0-3 (data: story-data.js, built by tools/story/build.py; without it the plain story is shown) ---
+   t  original text
+   0  letters: in some words a letter is swapped for the Thai letter that sounds closest (tap it: how the letter is read + the school word)
+   1  words: whole words swapped for Thai, in place (not in Thai order). Without growth: the hand-made inserts with brackets
+   2  mix of 0 and 1
+   3  order: Thai words in correct Thai order; moved phrases are marked, a balloon says what moved and why
+   "growth": the share of swaps rises along a parabola from 8 % to 60 % (never more), letters and words alike */
+/*@@ST-A*/
+/*@@ST-T*/
+/* the target language of the swaps (English): the Latin letter that sounds closest to a Russian letter, what is spoken when it is
+   tapped, and its balloon (this block replaces the Thai one of ThaiFast, see tools/build.py) */
+const ST_RU = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', э: 'e' };
+function stLetterFor(ch, i, word, key) {
+  const m = ST_RU[ch.toLowerCase()];
+  return m && (ch === ch.toLowerCase() ? m : m.toUpperCase());
+}
+const ST_FONT = '';
+const stLetterSay = tc => { const c = LETTERS.find(x => x.ch === tc.toUpperCase()); return c ? c.say : tc };
+function stLetterTip(el, ru, row) {
+  const c = LETTERS.find(x => x.ch === el.dataset.ch.toUpperCase());
+  return `<p class="text-4xl text-white leading-none">${c.ch}${c.ch.toLowerCase()} <span class="text-lg text-zinc-300">${c.word}</span></p>
+    <p class="mt-1 font-mono text-accent">[${c.name}]</p><p class="text-xs text-zinc-400">${c.nameRu}</p>
+    ${row('stTipSound', stEsc(c.sound))}${row('stTipExample', `${c.word} <span class="font-mono text-accent">[${c.wordIpa}]</span> — ${c.wordRu}`)}${row('stTipRep', `«${stEsc(el.dataset.o)}» → ${stEsc(el.dataset.ch)}`)}`;
+}
+/*@@ST-T-END*/
+const stEsc = v => String(v).replace(/[&<>"]/g, c => `&#${c.charCodeAt(0)};`);   // own copy: EngFast's page does not carry the helper of the same name
+const stGrowShare = p => Math.min(.6, .08 + .52 * p * p);
+const ST_WORD = /[A-Za-zА-Яа-яЁё]+(?:[-’'][A-Za-zА-Яа-яЁё]+)*/g;
+const stRng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let x = Math.imul(seed ^ seed >>> 15, 1 | seed); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296 };
+const stWords = s => (String(s).match(ST_WORD) || []).length;
+let stCache = null;
+function stPrepare() {
+  const D = stData, key = lang === 'ru' ? 'ru' : 'en';
+  if (stCache && stCache.key === key) return stCache;
+  const text = segs => segs.map(s => typeof s === 'string' ? s : s[0]).join('');
+  let total = 0, repl = 0; const start = [];
+  D.p.forEach(p => { start.push(total); total += stWords(text(p[key])); });
+  D.p.forEach(p => p[key].forEach(s => { if (typeof s !== 'string') repl += stWords(s[0]) }));
+  return stCache = { key, total, start, cov: repl / total };
+}
+
+// one paragraph as HTML for the current mode
+function stPara(pi) {
+  const D = stData, C = stPrepare(), key = C.key, m = stS.mode, grow = stS.grow && (m === '0' || m === '1' || m === '2');
+  const segs = D.p[pi][m === '3' ? key + '3' : key], r = stRng(stS.seed * 7919 + pi * 104729 + (key === 'ru' ? 11 : 13));
+  let wi = C.start[pi], html = '';
+  const share = () => stGrowShare(wi / C.total);
+  const letters = m === '0' || m === '2';
+  const wordHTML = (th, ro, orig) => `<span class="st-w font-thai" data-say="${stEsc(th)}" data-th="${stEsc(th)}" data-ro="${stEsc(ro)}" data-o="${stEsc(orig)}" tabindex="0">${stEsc(th)}</span>`;
+  // plain text; in the letter modes some letters of some words become Thai letters
+  const plain = txt => {
+    if (!letters) { wi += stWords(txt); return stEsc(txt) }
+    let out = '', last = 0;
+    txt.replace(ST_WORD, (w, at) => {
+      out += stEsc(txt.slice(last, at)); last = at + w.length;
+      const ok = [...w].map((ch, i) => stLetterFor(ch, i, w.toLowerCase(), key) ? i : -1).filter(i => i >= 0);
+      let k = 0;
+      if (ok.length >= 2) {
+        if (grow) { const e = (m === '2' ? .5 : 1) * share() * ok.length; k = Math.floor(e) + (r() < e - Math.floor(e) ? 1 : 0) }
+        else k = r() < (m === '0' ? .3 : .22) ? 1 : 0;
+      }
+      const pick = new Set(); while (pick.size < Math.min(k, ok.length)) pick.add(ok[Math.floor(r() * ok.length)]);
+      [...w].forEach((ch, i) => {
+        if (!pick.has(i)) { out += stEsc(ch); return }
+        const th = stLetterFor(ch, i, w.toLowerCase(), key);
+        out += `<span class="st-l ${ST_FONT}" data-ch="${th}" data-o="${stEsc(ch)}" data-say="${stEsc(stLetterSay(th))}" tabindex="0">${th}</span>`;
+      });
+      wi++;
+    });
+    return out + stEsc(txt.slice(last));
+  };
+  for (const s of segs) {
+    if (typeof s === 'string') { html += plain(s); continue; }
+    const [surface, id, kind] = s;
+    if (kind === 2) {                                    // a moved phrase (mode 3)
+      const e = D.ev[id];
+      html += `<span class="st-sw font-thai" data-ev="${id}" data-say="${stEsc(e.th)}" tabindex="0">${stEsc(e.th)}</span>`; wi += stWords(surface); continue;
+    }
+    const [th, ro] = D.lex[id];
+    const use = m === 't' || m === '0' ? false
+      : m === '3' ? kind === 1 || r() < .45
+      : grow ? r() < Math.min(1, share() / C.cov) : kind === 1;
+    if (!use) html += plain(surface);
+    else if (!grow && kind === 1 && m !== '3') { html += `<span class="st-th font-thai" data-say="${stEsc(th)}">${stEsc(th)}</span> <span class="text-zinc-500">(${stEsc(ro)}, ${stEsc(surface)})</span>`; wi += stWords(surface) }
+    else { html += wordHTML(th, ro, surface); wi += stWords(surface) }
+  }
+  return html;
+}
+
+function stModeBar() {
+  const modes = [['t', t('stMT')], ['0', t('stM0')], ['1', t('stM1')], ['2', t('stM2')], ['3', t('stM3')]];
+  const canGrow = ['0', '1', '2'].includes(stS.mode);
+  return `<div class="mt-6 flex flex-wrap items-center gap-2" role="group">
+      ${modes.map(([k, n]) => `<button data-stmode="${k}" class="${chip(stS.mode === k)}">${k === 't' ? '' : `<span class="font-mono opacity-70">${k}</span>`}${n}</button>`).join('')}
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-2 min-h-[2.5rem]">
+      ${canGrow ? `<button id="stGrow" aria-pressed="${stS.grow}" class="${chip(stS.grow)}"><i data-lucide="trending-up" class="w-4 h-4"></i>${t('stGrow')}</button>` : ''}
+      ${stS.mode !== 't' ? `<button id="stPlain" aria-pressed="${stS.plain}" class="${chip(stS.plain)}" title="${t('stPlainH')}"><i data-lucide="eye-off" class="w-4 h-4"></i>${t('stPlain')}</button>` : ''}
+      ${stS.mode !== 't' && stS.mode !== '1' || stS.grow ? `<button id="stSeed" class="${chip(false)}" title="${t('stSeed')}"><i data-lucide="shuffle" class="w-4 h-4"></i>${t('stSeed')}</button>` : ''}
+    </div>
+    <p class="mt-2 min-h-[4.5rem] text-sm leading-relaxed text-zinc-500 sm:min-h-[3.25rem]">${t('stD' + stS.mode)}${canGrow && stS.grow ? ' ' + t('stDG') : ''}</p>`;
+}
+
+/*@@ST-A-END*/
+const ST_KEY = 'tf-story';
+const stS = Object.assign({ mode: '1', grow: false, plain: false, seed: 1 }, (() => { try { return JSON.parse(store.get(ST_KEY, '{}')) } catch (e) { return {} } })());
+const stSave = () => store.set(ST_KEY, JSON.stringify(stS));
+let stData = null;
 function renderStories() {
-  const st = STORIES[0], paras = storyOpen ? st.paras : st.paras.slice(0, 4);
+  const st = STORIES[0], paras = storyOpen ? st.paras : st.paras.slice(0, 4), trainer = stData && lang in { ru: 1, en: 1 } && T[lang].stM0;
   $('#storyBox').innerHTML = `<article class="rounded-3xl border border-white/10 bg-ink-900 p-6 md:p-10">
     <p class="text-sm text-zinc-500">${t('stBy')} <a href="${st.site}" target="_blank" rel="noopener" class="font-semibold text-accent hover:text-white transition">${L(st.author.ru, st.author.en)}</a> · ${st.year}</p>
     <h3 class="mt-2 text-3xl md:text-4xl font-bold text-white">${L(st.title.ru, st.title.en)}</h3>
     <p class="mt-1 font-thai text-lg text-zinc-500">${st.title[STORY_L]}</p>
-    <div id="storyBody" class="relative mt-8 space-y-5">${paras.map(p => `<p class="text-[17px] leading-relaxed text-zinc-200">${L(...p)}</p>`).join('')}
+    ${trainer ? stModeBar() : ''}
+    <div id="storyBody" class="relative mt-8 space-y-5${stS.plain ? ' st-plain' : ''}">${trainer ? paras.map((_, i) => `<p class="text-[17px] leading-relaxed text-zinc-200">${stPara(i)}</p>`).join('') : paras.map(p => `<p class="text-[17px] leading-relaxed text-zinc-200">${L(...p)}</p>`).join('')}
       ${storyOpen ? '' : '<div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink-900"></div>'}</div>
     <button id="stMore" class="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-accent hover:border-accent/60 hover:text-white transition">${t(storyOpen ? 'stLess' : 'stMore')}<i data-lucide="${storyOpen ? 'chevron-up' : 'chevron-down'}" class="w-4 h-4"></i></button>
     <p class="mt-8 border-t border-white/5 pt-4 text-xs text-zinc-500 leading-relaxed">${t('stSrc')}: <a href="${st.url}" target="_blank" rel="noopener" class="underline hover:text-white">${st.url.replace('https://', '')}</a> · ${t('stNote')}</p>
   </article>`;
 }
-$('#storyBox').addEventListener('click', e => { if (e.target.closest('#stMore')) { storyOpen = !storyOpen; renderStories(); icons() } });
+$('#storyBox').addEventListener('click', e => {
+  const set = (k, v) => { stS[k] = v; stSave(); renderStories(); icons() };
+  const md = e.target.closest('[data-stmode]');
+  if (e.target.closest('#stMore')) { storyOpen = !storyOpen; renderStories(); icons() }
+  else if (md) set('mode', md.dataset.stmode);
+  else if (e.target.closest('#stGrow')) set('grow', !stS.grow);
+  else if (e.target.closest('#stPlain')) set('plain', !stS.plain);
+  else if (e.target.closest('#stSeed')) set('seed', stS.seed + 1);
+});
+// the data of the trainer is loaded after the first paint (200 KB); EngFast and EngFast only, each with its own story-data.js
+if (SITE === 'thai' || SITE === 'eng') {
+  const sc = document.createElement('script'); sc.src = 'story-data.js';
+  sc.onload = () => { stData = STORY_DATA; renderStories(); icons() };
+  document.head.append(sc);
+}
+
+/*@@ST-C*/
+/* balloons over swapped letters, words and moved phrases: hover with a mouse, tap on a phone */
+const stTip = document.createElement('div');
+stTip.className = 'fixed z-50 hidden w-72 max-w-[calc(100vw-1.5rem)] rounded-2xl border border-white/15 bg-ink-800 p-4 text-sm text-zinc-300 shadow-2xl shadow-black/60 leading-relaxed';
+document.body.append(stTip);
+let stTipFor = null, stTipTimer;
+function stTipHTML(el) {
+  const D = stData, ru = lang === 'ru', row = (k, v) => `<p class="mt-2"><span class="text-xs uppercase tracking-wider text-zinc-500">${t(k)}</span><br>${v}</p>`;
+  if (el.classList.contains('st-l')) {
+    return stLetterTip(el, ru, row);
+  }
+  if (el.classList.contains('st-sw')) {
+    const e = D.ev[el.dataset.ev];
+    return `<p class="font-thai text-2xl text-white">${stEsc(e.th)}</p><p class="mt-1 font-mono text-accent">${stEsc(e.rom)}</p>
+      ${row('stTipOrig', `«${stEsc(e.sp)}»`)}${row('stTipLit', stEsc(e.lit[ru ? 0 : 1]))}${row('stTipWhy', stEsc(e.why[ru ? 0 : 1]))}`;
+  }
+  return `<p class="font-thai text-2xl text-white">${stEsc(el.dataset.th)}</p><p class="mt-1 font-mono text-accent">${stEsc(el.dataset.ro)}</p>${row('stTipFrom', `«${stEsc(el.dataset.o)}»`)}`;
+}
+function stTipShow(el) {
+  clearTimeout(stTipTimer); stTipFor = el; stTip.innerHTML = stTipHTML(el); stTip.classList.remove('hidden');
+  const r = el.getBoundingClientRect(), w = stTip.offsetWidth, h = stTip.offsetHeight;
+  const left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2));
+  stTip.style.left = left + 'px'; stTip.style.top = (r.bottom + h + 12 > innerHeight && r.top > h + 12 ? r.top - h - 8 : r.bottom + 8) + 'px';
+}
+const stTipHide = () => { stTip.classList.add('hidden'); stTipFor = null };
+const stTarget = e => e.target.closest?.('.st-l, .st-w, .st-sw');
+document.addEventListener('pointerover', e => { const el = e.pointerType === 'mouse' && stTarget(e); if (el && el !== stTipFor) stTipShow(el) });
+document.addEventListener('pointerout', e => { if (e.pointerType === 'mouse' && stTarget(e)) stTipTimer = setTimeout(stTipHide, 120) });
+document.addEventListener('click', e => { const el = stTarget(e); if (el) { if (el === stTipFor && e.detail === 0) stTipHide(); else stTipShow(el) } else if (!e.target.closest('#stTip')) stTipHide() }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') stTipHide() });
+addEventListener('scroll', stTipHide, { passive: true });
+/*@@ST-C-END*/
 function renderLearn() {
   $('#lnGrid').innerHTML = LEARN.map(x => `<div class="rounded-2xl border border-white/10 bg-ink-900 p-5">
     <div class="flex items-start justify-between gap-3">
