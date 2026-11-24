@@ -325,6 +325,10 @@ assert s.count('const SAY_RUN = ') == 1
 s = re.sub(r'^const SAY_RUN = .*$', lambda m: "const SAY_RUN = /[A-Za-z][A-Za-z’' -]*[A-Za-z]|[A-Za-z]/g, SAY_HAS = /[A-Za-z]/, SAY_OTHER = /[а-яА-ЯёЁ]/, SAY_OK = () => true;", s, flags=re.M)
 rep('// Thai words inside notes and tips become tappable: only text that mixes Thai with Latin/Cyrillic,', '// English words inside Russian notes and tips become tappable: only text that mixes both,')
 
+# the Thai-only story trainer (letters, balloons): not for this site; the story stays as a plain text
+between('/*@@ST-A*/', '/*@@ST-A-END*/', '')
+between('/*@@ST-C*/', '/*@@ST-C-END*/', '')
+
 # leftovers check
 for bad in ['CONS', 'thaiNum', 'thaiDigits', 'VOWELS32', 'TONEMARKS', 'VSAY', 'PRONOUN', 'INI[', 'FIN[', 'ไ', 'ก', 'ครับ']:
     if bad in s:
